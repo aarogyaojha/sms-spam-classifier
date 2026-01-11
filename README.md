@@ -1,16 +1,16 @@
 # SMS Spam Classifier
 
-A comprehensive machine learning project for classifying SMS messages as spam or legitimate (ham). This project includes data preprocessing, exploratory data analysis, feature engineering, and prepares the foundation for building robust spam detection models.
+A comprehensive machine learning project for classifying SMS messages as spam or legitimate (ham). This project includes data preprocessing, exploratory data analysis, feature engineering, and advanced text visualization techniques to prepare for building robust spam detection models.
 
 ## 📋 Table of Contents
 - [Project Overview](#project-overview)
 - [Dataset](#dataset)
 - [Project Structure](#project-structure)
 - [Features](#features)
+- [Key Analysis](#key-analysis)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Methodology](#methodology)
-- [Key Findings](#key-findings)
 - [Future Enhancements](#future-enhancements)
 - [Dependencies](#dependencies)
 - [Contributing](#contributing)
@@ -21,8 +21,9 @@ A comprehensive machine learning project for classifying SMS messages as spam or
 This project implements a complete data science pipeline for SMS spam detection, including:
 - **Data Cleaning**: Handling missing values and duplicates
 - **Feature Engineering**: Creating statistical features from text data
+- **Text Preprocessing**: NLP pipeline (tokenization, stemming, etc.)
+- **Visual Analysis**: Word clouds and frequency distributions
 - **Exploratory Data Analysis**: Understanding data patterns and distributions
-- **Visualization**: Comprehensive visual analysis of the dataset
 
 The notebook provides a solid foundation for building and deploying machine learning models for spam classification.
 
@@ -65,13 +66,47 @@ sms-spam-classifier/
 2. **num_words**: Word count using NLTK tokenization
 3. **num_sentences**: Sentence count using NLTK sentence tokenizer
 
-### Exploratory Data Analysis
-- Class distribution analysis
-- Character count distribution comparison
-- Pairwise feature relationship visualization
-- Statistical summaries
+### Text Preprocessing Pipeline
+- **Lowercasing**: Converting all text to lowercase
+- **Tokenization**: Breaking text into individual words
+- **Special Character Removal**: Stripping non-alphanumeric characters
+- **Stopword Removal**: Filtering out common words (e.g., 'is', 'the', 'of')
+- **Stemming**: Reducing words to their root forms using PorterStemmer
 
-## 🚀 Installation
+### Visual Analysis
+- **Word Clouds**: Visualizing the most prominent words in Spam and Ham messages
+- **Frequency Analysis**: Top 30 most recurring words for each class
+
+## 🔬 Methodology
+
+### 1. Data Loading
+- Load SMS dataset with proper encoding (ISO-8859-1)
+- Initial data inspection and structure analysis
+
+### 2. Data Cleaning
+- Remove unnecessary columns with null values
+- Rename columns for clarity (v1 -> target, v2 -> text)
+- Handle missing values and remove duplicate messages (403 duplicates removed)
+
+### 3. Feature Engineering
+- **Character Count**: Measure message length
+- **Word Count**: Analyze vocabulary usage
+- **Sentence Count**: Understand message structure
+
+### 4. Exploratory Data Analysis (EDA)
+- **Class Distribution**: Analyzed the imbalance between spam (12.6%) and ham (87.4%)
+- **Feature Relationships**: Visualized correlation between message length and spam probability (Spam messages tend to be longer)
+
+### 5. Text Preprocessing
+- Applied NLTK-based preprocessing pipeline to clean raw text
+- transformed `text` column into `transformed_text` for modeling
+
+### 6. Visual Insights
+- **Spam Word Cloud**: Highlighted urgent terms like "FREE", "CALL", "TEXT", "CLAIM"
+- **Ham Word Cloud**: Showed conversational terms like "go", "got", "come", "ok"
+- **Top 30 Words Analysis**: Confirmed that spam messages rely heavily on call-to-action verbs
+
+## � Installation
 
 ### Prerequisites
 Ensure you have Python 3.7+ installed on your system.
@@ -84,7 +119,7 @@ cd sms-spam-classifier
 
 ### Step 2: Install Required Packages
 ```bash
-pip install pandas numpy scikit-learn nltk matplotlib seaborn jupyter
+pip install pandas numpy scikit-learn nltk matplotlib seaborn wordcloud jupyter
 ```
 
 ### Step 3: Download NLTK Data
@@ -92,6 +127,7 @@ pip install pandas numpy scikit-learn nltk matplotlib seaborn jupyter
 import nltk
 nltk.download('punkt')
 nltk.download('punkt_tab')
+nltk.download('stopwords')
 ```
 
 ## 💻 Usage
@@ -104,140 +140,38 @@ jupyter notebook sms-spam-detection.ipynb
 ```
 
 2. **Execute Cells Sequentially**:
-   - Run each cell in order to reproduce the analysis
-   - All visualizations will be generated inline
-
-### Quick Start Example
-
-```python
-import pandas as pd
-from sklearn.preprocessing import LabelEncoder
-
-# Load the dataset
-df = pd.read_csv('spam.csv', encoding='ISO-8859-1')
-
-# Clean the data
-df.drop(columns=['Unnamed: 2', 'Unnamed: 3', 'Unnamed: 4'], inplace=True)
-df.rename(columns={'v1': 'target', 'v2': 'text'}, inplace=True)
-
-# Encode labels
-encoder = LabelEncoder()
-df['target'] = encoder.fit_transform(df['target'])
-
-# Remove duplicates
-df.drop_duplicates(keep='first', inplace=True)
-
-print(f"Dataset shape: {df.shape}")
-print(f"Class distribution:\n{df['target'].value_counts()}")
-```
-
-## 🔬 Methodology
-
-### 1. Data Loading
-- Load SMS dataset with proper encoding (ISO-8859-1)
-- Initial data inspection and structure analysis
-
-### 2. Data Cleaning
-- Remove unnecessary columns with null values
-- Rename columns for clarity
-- Handle missing values
-- Remove duplicate messages
-
-### 3. Feature Engineering
-- **Character Count**: Measure message length
-- **Word Count**: Analyze vocabulary usage
-- **Sentence Count**: Understand message structure
-
-### 4. Exploratory Data Analysis
-- Visualize class distribution (pie chart)
-- Compare feature distributions between spam and ham
-- Analyze feature correlations using pair plots
-
-### 5. Data Preparation (Next Steps)
-- Text preprocessing (lowercasing, removing special characters)
-- Stopword removal
-- Stemming/Lemmatization
-- TF-IDF vectorization
-
-## 📈 Key Findings
-
-1. **Class Imbalance**: 
-   - The dataset is heavily imbalanced (87.4% ham vs 12.6% spam)
-   - Requires special handling during model training
-
-2. **Message Length Patterns**:
-   - Spam and ham messages show different character count distributions
-   - This feature can be useful for classification
-
-3. **Data Quality**:
-   - Clean dataset after preprocessing
-   - No missing values in final dataset
-   - 403 duplicate messages removed
+   - Run each cell in order to reproduce the analysis.
+   - All visualizations, including Word Clouds, will be generated inline.
 
 ## 🔮 Future Enhancements
 
 ### Planned Features
-- [ ] Advanced text preprocessing
-- [ ] TF-IDF vectorization
-- [ ] Multiple ML model implementations (Naive Bayes, SVM, Random Forest)
-- [ ] Model comparison and evaluation
-- [ ] Hyperparameter tuning
-- [ ] Cross-validation
-- [ ] Model deployment pipeline
-
-### Additional Features to Engineer
-- [ ] Presence of URLs
-- [ ] Presence of phone numbers
-- [ ] Special character ratio
-- [ ] Capitalization ratio
-- [ ] Presence of currency symbols
-- [ ] Message urgency indicators
+- [ ] TF-IDF Vectorization implementation
+- [ ] Naive Bayes, SVM, and Random Forest model training
+- [ ] Model evaluation (Accuracy, Precision, Recall, F1-Score)
+- [ ] Deployment using Streamlit or Flask
 
 ## 📦 Dependencies
 
 ### Core Libraries
-- **pandas** (>=1.3.0): Data manipulation and analysis
+- **pandas** (>=1.3.0): Data manipulation
 - **numpy** (>=1.21.0): Numerical computing
-- **scikit-learn** (>=0.24.0): Machine learning algorithms
+- **scikit-learn** (>=0.24.0): Preprocessing and modeling
 
-### NLP Libraries
+### NLP & Visualization
 - **nltk** (>=3.6.0): Natural language processing
-
-### Visualization
-- **matplotlib** (>=3.4.0): Plotting and visualization
-- **seaborn** (>=0.11.0): Statistical data visualization
+- **wordcloud** (>=1.8.0): Text visualization
+- **matplotlib** (>=3.4.0): Plotting
+- **seaborn** (>=0.11.0): Statistical styling
 
 ### Development
-- **jupyter** (>=1.0.0): Interactive notebook environment
+- **jupyter** (>=1.0.0): Notebook environment
 
 ## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request. For major changes:
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 📝 License
-
-This project is created for educational purposes as part of an SMS Spam Classification task.
+This project is created for educational purposes.
 
 ## 📧 Contact
-
 For questions or feedback, please open an issue in the repository.
-
----
-
-## 📚 Additional Resources
-
-- [SMS Spam Collection Dataset Information](https://archive.ics.uci.edu/ml/datasets/SMS+Spam+Collection)
-- [NLTK Documentation](https://www.nltk.org/)
-- [Scikit-learn Documentation](https://scikit-learn.org/)
-
----
-
-*Last Updated: January 11, 2026*
-
-**Note**: This project is currently in the exploratory data analysis phase. Machine learning model implementation is planned for future updates.
