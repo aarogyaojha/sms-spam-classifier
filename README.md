@@ -279,34 +279,3 @@ This project is created for educational purposes.
 
 For questions or feedback, please open an issue in the repository.
 
----
-
-## 🔍 Key Insights from Analysis
-
-### Spam Characteristics
-- Spam messages are typically longer than ham messages
-- Common spam indicators: FREE, CALL, CLAIM, WIN, PRIZE
-- Heavy use of call-to-action language
-- Often include phone numbers and monetary amounts
-
-### Ham Characteristics
-- Shorter, conversational messages
-- Common words: go, got, come, ok, time
-- Natural language patterns
-- Personal and contextual
-
-### Model Performance
-The Multinomial Naive Bayes model achieved outstanding results with:
-- **97.10% accuracy** on test data
-- **100% precision** - meaning when it predicts spam, it's always correct
-- Very low false positive rate
-- Excellent balance between accuracy and computational efficiency
-
-This makes it ideal for production deployment where avoiding false positives (marking legitimate messages as spam) is crucial.
-
-### Technical Highlights
-- Effective use of TF-IDF for feature extraction
-- Comprehensive comparison of 11 different algorithms
-- Proper train-test split ensuring no data leakage
-- Robust text preprocessing pipeline
-- Visual analysis confirming model findings
